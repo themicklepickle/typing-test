@@ -1,4 +1,4 @@
-import { Server } from 'Socket.IO';
+import { Server } from 'socket.io';
 import texts from '../../lib/texts';
 // import * as fs from 'fs';
 

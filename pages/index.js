@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
-import io from 'Socket.IO-client';
+import io from 'socket.io-client';
 import Leaderboard from '../components/Leaderboard';
 import Prompt from '../components/Prompt';
 import ReactCanvasConfetti from 'react-canvas-confetti';

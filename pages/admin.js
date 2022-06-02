@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import io from 'Socket.IO-client';
+import io from 'socket.io-client';
 import Leaderboard from '../components/Leaderboard';
 
 let socket;
