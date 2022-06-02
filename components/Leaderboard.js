@@ -6,7 +6,7 @@ const Leaderboard = ({ players }) => {
     return (
       <div className="flex h-full">
         <h1 className="text-center m-auto text-2xl text-gray-500 italic">
-          You're the first one here!
+          You&apos;re the first one here!
         </h1>
       </div>
     );

@@ -48,7 +48,7 @@ const Home = () => {
 
       fire();
     }
-  }, [progress]);
+  }, [progress, fire]);
 
   useEffect(() => {
     const realWordsTyped = charactersTyped / 5;
