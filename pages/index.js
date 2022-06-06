@@ -27,6 +27,7 @@ const Home = () => {
   const [progress, setProgress] = useState({});
   const [charactersTyped, setCharactersTyped] = useState(0);
   const [startTime, setStartTime] = useState();
+  const [key, setKey] = useState(0);
 
   const { fire, getInstance, canvasStyles } = useConfetti();
 
@@ -189,11 +190,15 @@ const Home = () => {
         >
           <div>
             <CountdownCircleTimer
+              key={key}
               isPlaying={screen === 'countdown'}
               duration={3}
               colors={['#f87171', '#fb923c', '#fbbf24', '#a3e635']}
               colorsTime={[3, 2, 1, 0]}
-              onComplete={() => setScreen('game')}
+              onComplete={() => {
+                setScreen('game');
+                setKey((prevKey) => prevKey + 1);
+              }}
             >
               {({ remainingTime }) => (
                 <h1 className="text-5xl">{remainingTime}</h1>
