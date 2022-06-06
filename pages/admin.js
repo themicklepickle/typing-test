@@ -2,19 +2,17 @@ import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Leaderboard from '../components/Leaderboard';
 
-let socket;
-
 const Home = () => {
   const [gameState, setGameState] = useState({});
   const [text, setText] = useState('');
+  const [socket, setSocket] = useState();
 
   useEffect(() => {
     socketInitializer();
   }, []);
 
-  const socketInitializer = async () => {
-    await fetch('/api/socket');
-    socket = io();
+  useEffect(() => {
+    if (!socket) return;
 
     socket.on('connect', () => {
       console.log(socket.id);
@@ -29,18 +27,23 @@ const Home = () => {
     socket.on('update-text', (newText) => {
       setText(newText);
     });
+  }, [socket]);
+
+  const socketInitializer = async () => {
+    await fetch('/api/socket');
+    setSocket(io());
   };
 
   const start = () => {
-    socket.emit('start');
+    if (socket) socket.emit('start');
   };
 
   const generateNewText = () => {
-    socket.emit('generate-new-text');
+    if (socket) socket.emit('generate-new-text');
   };
 
   const reset = () => {
-    socket.emit('reset');
+    if (socket) socket.emit('reset');
   };
 
   const players = Object.values(gameState).sort(

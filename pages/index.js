@@ -7,8 +7,6 @@ import useConfetti from '../hooks/useConfetti';
 import PlayerProgress from '../components/PlayerProgress';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
-let socket;
-
 const stringToWordsArray = (string) => {
   const wordsArray = string.split(' ');
 
@@ -28,6 +26,7 @@ const Home = () => {
   const [charactersTyped, setCharactersTyped] = useState(0);
   const [startTime, setStartTime] = useState();
   const [key, setKey] = useState(0);
+  const [socket, setSocket] = useState();
 
   const { fire, getInstance, canvasStyles } = useConfetti();
 
@@ -42,6 +41,39 @@ const Home = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on('connect', () => {
+      console.log(socket.id);
+      console.log('connected');
+    });
+
+    socket.on('update-game-state', (newGameState) => {
+      setGameState(newGameState);
+    });
+
+    socket.on('update-text', (newText) => {
+      reset();
+      setWordsArray(stringToWordsArray(newText));
+    });
+
+    socket.on('start', () => {
+      reset();
+      setScreen('countdown');
+      setStartTime(new Date().getTime());
+    });
+
+    socket.on('reset', () => {
+      reset();
+    });
+
+    socket.on('disconnect', () => {
+      setScreen('registration');
+      reset();
+    });
+  });
 
   useEffect(() => {
     if (socket) socket.emit('progress-change', { newProgress: progress });
@@ -76,36 +108,7 @@ const Home = () => {
 
   const socketInitializer = async () => {
     await fetch('/api/socket');
-    socket = io();
-
-    socket.on('connect', () => {
-      console.log(socket.id);
-      console.log('connected');
-    });
-
-    socket.on('update-game-state', (newGameState) => {
-      setGameState(newGameState);
-    });
-
-    socket.on('update-text', (newText) => {
-      reset();
-      setWordsArray(stringToWordsArray(newText));
-    });
-
-    socket.on('start', () => {
-      reset();
-      setScreen('countdown');
-      setStartTime(new Date().getTime());
-    });
-
-    socket.on('reset', () => {
-      reset();
-    });
-
-    socket.on('disconnect', () => {
-      setScreen('registration');
-      reset();
-    });
+    setSocket(io());
   };
 
   const reset = () => {

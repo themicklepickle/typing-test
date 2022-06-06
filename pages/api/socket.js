@@ -95,6 +95,7 @@ const SocketHandler = (req, res) => {
       socket.on('generate-new-text', () => {
         text = generateNewText();
         socket.broadcast.emit('update-text', text);
+        socket.emit('update-text', text);
       });
 
       socket.on('reset', () => {
