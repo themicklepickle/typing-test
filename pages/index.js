@@ -6,6 +6,7 @@ import ReactCanvasConfetti from 'react-canvas-confetti';
 import useConfetti from '../hooks/useConfetti';
 import PlayerProgress from '../components/PlayerProgress';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import Head from 'next/head';
 
 const stringToWordsArray = (string) => {
   const wordsArray = string.split(' ');
@@ -138,6 +139,11 @@ const Home = () => {
 
   return (
     <div>
+      <Head>
+        <title>Michael Type</title>
+        <meta property="og:title" content="Michael Type" key="title" />
+      </Head>
+
       <main className="select-none">
         {screen === 'registration' && (
           <div className="grid place-items-center h-screen">

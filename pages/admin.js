@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import Leaderboard from '../components/Leaderboard';
@@ -57,10 +58,10 @@ const Home = () => {
 
   return (
     <div>
-      {/* <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+      <Head>
+        <title>Admin Panel</title>
+        <meta property="og:title" content="Admin Panel" key="title" />
+      </Head>
 
       <main className="select-none">
         <div className="grid h-screen place-content-center">
