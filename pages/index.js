@@ -5,6 +5,7 @@ import Prompt from '../components/Prompt';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 import useConfetti from '../hooks/useConfetti';
 import PlayerProgress from '../components/PlayerProgress';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 let socket;
 
@@ -91,10 +92,8 @@ const Home = () => {
     });
 
     socket.on('start', () => {
-      if (screen === 'registration') return;
-
       reset();
-      setScreen('game');
+      setScreen('countdown');
       setStartTime(new Date().getTime());
     });
 
@@ -109,9 +108,6 @@ const Home = () => {
   };
 
   const reset = () => {
-    console.log(screen);
-    if (screen === 'registration') return;
-
     setScreen('waiting');
     setWordNumber(0);
     setInput('');
@@ -125,6 +121,10 @@ const Home = () => {
     setScreen('waiting');
   };
 
+  const isRegistration = () => {
+    return screen !== 'registration';
+  };
+
   const otherPlayers = Object.values(gameState)
     .filter(({ id }) => id != socket?.id)
     .sort((a, b) => {
@@ -134,11 +134,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head> */}
-
       <main className="select-none">
         {screen === 'registration' && (
           <div className="grid place-items-center h-screen">
@@ -187,6 +182,25 @@ const Home = () => {
           </div>
         )}
         <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+        <div
+          className={`fixed ${
+            screen === 'countdown' ? '' : 'hidden'
+          } inset-0 bg-opacity-50 overflow-y-auto h-full w-full grid place-items-center`}
+        >
+          <div>
+            <CountdownCircleTimer
+              isPlaying={screen === 'countdown'}
+              duration={3}
+              colors={['#f87171', '#fb923c', '#fbbf24', '#a3e635']}
+              colorsTime={[3, 2, 1, 0]}
+              onComplete={() => setScreen('game')}
+            >
+              {({ remainingTime }) => (
+                <h1 className="text-5xl">{remainingTime}</h1>
+              )}
+            </CountdownCircleTimer>
+          </div>
+        </div>
       </main>
 
       {/* <footer className="flex items-center justify-center w-full h-24 border-t">

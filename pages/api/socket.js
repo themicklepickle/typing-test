@@ -2,7 +2,7 @@ import { Server } from 'socket.io';
 import texts from '../../lib/texts';
 // import * as fs from 'fs';
 
-// fs.writeFileSync(
+// fs.writeFileSync
 //   'hello',
 //   JSON.stringify(
 //     texts.reduce(
