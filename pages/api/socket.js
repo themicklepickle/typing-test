@@ -56,6 +56,14 @@ let gameState = {};
 // let admin = '';
 let text = generateNewText();
 
+const removePlayer = (id) => {
+  if (!gameState[id]) return;
+
+  colors[gameState[id].color] = false;
+
+  delete gameState[id];
+};
+
 const SocketHandler = (req, res) => {
   if (res.socket.server.io) {
     console.log('Socket is already running');
@@ -106,17 +114,13 @@ const SocketHandler = (req, res) => {
         socket.broadcast.emit('start');
       });
 
+      socket.on('kick', (id) => {
+        removePlayer(id);
+        socket.broadcast.emit('update-game-state', gameState);
+      });
+
       socket.on('disconnect', () => {
-        // if (socket.id == admin) {
-        //   admin = '';
-        //   return;
-        // }
-
-        if (!gameState[socket.id]) return;
-
-        colors[gameState[socket.id].color] = false;
-
-        delete gameState[socket.id];
+        removePlayer(socket.id);
         socket.broadcast.emit('update-game-state', gameState);
       });
     });

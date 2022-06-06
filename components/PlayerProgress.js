@@ -1,11 +1,14 @@
 import { Line } from 'rc-progress';
 import WPM from './WPM';
 
-const PlayerProgress = ({ name, progress, color }) => {
+const PlayerProgress = ({ name, progress, color, clickHandler }) => {
   return (
     <div>
       <div className="flex mb-3">
-        <div className="flex flex-col grow place-content-center">
+        <div
+          className="flex flex-col grow place-content-center"
+          onClick={clickHandler}
+        >
           <p className="text-lg font-mono">{name}</p>
           <Line
             percent={progress?.percentage ? progress.percentage * 100 : 0}

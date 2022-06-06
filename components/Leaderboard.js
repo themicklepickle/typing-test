@@ -1,7 +1,7 @@
 import { Line } from 'rc-progress';
 import PlayerProgress from './PlayerProgress';
 
-const Leaderboard = ({ players }) => {
+const Leaderboard = ({ players, kick }) => {
   if (players.length === 0)
     return (
       <div className="flex h-full">
@@ -14,7 +14,11 @@ const Leaderboard = ({ players }) => {
   return (
     <div className="grid h-full">
       {Object.values(players).map(({ id, ...playerProps }) => (
-        <PlayerProgress key={id} {...playerProps} />
+        <PlayerProgress
+          key={id}
+          {...playerProps}
+          clickHandler={kick ? () => kick(id) : () => {}}
+        />
       ))}
     </div>
   );
