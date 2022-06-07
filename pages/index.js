@@ -91,7 +91,7 @@ const Home = () => {
 
     setProgress({
       percentage: wordNumber / wordsArray.length,
-      wpm: Math.floor(realWordsTyped / minutesElapsed),
+      wpm: Math.floor(realWordsTyped / minutesElapsed) * 2,
     });
   }, [wordNumber]);
 
