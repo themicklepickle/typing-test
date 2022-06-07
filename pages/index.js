@@ -186,6 +186,8 @@ const Home = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   disabled={!(screen === 'game')}
+                  autoCapitalize={false}
+                  autoCorrect={false}
                 />
               </div>
             </div>
